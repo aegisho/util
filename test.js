@@ -28,7 +28,7 @@
                 }
 
                 for (i = 0; i < len1; i++) {
-                    if (obj1[i] !== obj2[i]) {
+                    if (!similarEqual(obj1[i], obj2[i])) {
                         return false
                     }
                 }
@@ -55,7 +55,7 @@
             }
         }
 
-        return false
+        return true
     }
 
     var test = {

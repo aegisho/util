@@ -39,6 +39,136 @@ require(['test'], function(test) {
             test.assert(book.anthor !== src.anthor)
         })
 
+        test.describe('core.hasKey', function() {
+            var book = {
+                anthor: {
+                    name: 'jone',
+                    sex: 'male'
+                }
+            }
+
+            test.assert(core.hasKey(book, 'anthor'))
+            test.assert(core.hasKey(book, 'anthor.sex'))
+            test.assert(!core.hasKey(book, 'title'))
+        })
+
+        test.describe('core.findValue', function() {
+            var book = {
+                title: 'my book',
+                anthor: {
+                    name: 'jone',
+                    sex: 'male'
+                }
+            }
+
+            test.assert(core.findValue(book, 'title') === 'my book')
+            test.assert(core.findValue(book, 'anthor.sex') === 'male')
+            test.assert(core.findValue(book, 'anthor.phone') == null)
+        })
+
+        test.describe('core.setValue', function() {
+            var book = {
+                title: 'my book'
+            }
+
+            var newTitle = 'new book'
+
+            core.setValue(book, 'title', newTitle)
+            test.assert(book.title === newTitle)
+
+            var newPhone = '0576-105-125'
+            core.setValue(book, 'anthor.phone', newPhone)
+            test.assert(book.anthor.phone === newPhone)
+        })
+
+        test.describe('core.callFunc', function() {
+            var book = {
+                title: 'my book',
+                anthor: {
+                    name: 'jone',
+                    getAnthorInfo: function(str) {
+                        return this.name + (str || '')
+                    }
+                }
+            }
+
+            var reuslt = core.callFunc('anthor.getAnthorInfo', book, ' is anthor')
+
+            test.assert(reuslt === 'jone is anthor')
+        })
+
+        test.describe('core.isEmpty', function() {
+            var obj = {
+                name: ''
+            }
+
+            test.assert(!core.isEmpty(obj))
+
+            var arr = [1]
+
+            test.assert(!core.isEmpty(arr))
+
+            var emptyObj = {}
+            test.assert(core.isEmpty(emptyObj))
+
+            var emptyArr = []
+            test.assert(core.isEmpty(emptyArr))
+        })
+
+        test.describe('core.invert', function() {
+            var obj = {
+                name: 'jone'
+            }
+
+            var invertObj = core.invert(obj)
+
+            test.assertSimilarEqual(invertObj, {
+                jone: 'name'
+            })
+        })
+
+        test.describe('core.toKeyValue', function() {
+            var arr = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+
+            // config = {
+            //     keyName: 'Key',
+            //     valueName: 'Value',
+            //     map: function(value) {
+            //         return value
+            //     }
+            // }
+
+            var result = core.toKeyValue(arr, {
+                map: function(value) {
+                    return value === 6 ? 0 : (value + 1)
+                }
+            })
+
+            test.assertSimilarEqual(result, [{
+                Key: 'Monday',
+                Value: 1
+            }, {
+                Key: 'Tuesday',
+                Value: 2
+            }, {
+                Key: 'Wednesday',
+                Value: 3
+            }, {
+                Key: 'Thursday',
+                Value: 4
+            }, {
+                Key: 'Friday',
+                Value: 5
+            }, {
+                Key: 'Saturday',
+                Value: 6
+            }, {
+                Key: 'Sunday',
+                Value: 0
+            }])
+        })
+
         console.log('core.js test end')
     })
 })
