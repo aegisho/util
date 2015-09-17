@@ -1,0 +1,29 @@
+{
+  "name": "my-util",
+  "version": "1.0.0",
+  "description": "",
+  "main": "core.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aegisho/util.git"
+  },
+  "keywords": [
+    "util"
+  ],
+  "author": "yjj",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aegisho/util/issues"
+  },
+  "homepage": "https://github.com/aegisho/util#readme"
+}
