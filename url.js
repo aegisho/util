@@ -1,25 +1,38 @@
-﻿(function (factory) {
+﻿(function(factory) {
     if (typeof define === 'function' && define.amd) {
         define(['core'], factory)
     } else {
         factory()
     }
-}(function () {
+}(function() {
     'use strict'
 
-    var url = {
-        getQuery: function (name) {
+    var decode = function(value) {
+        var result = value
+        try {
+            result = decodeURIComponent(value)
+        } catch (e) {
+
+        }
+        return result
+    }
+
+    var urlUtil = {
+        getQuery: function(name, url) {
             /// <summary>获取url参数</summary>
+            var search = url ? url.split('?')[1] : location.search.substr(1)
+
             var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i'),
-                match = location.search.substr(1).match(reg),
+                match = search.match(reg),
                 result = ''
 
-            result = decodeURIComponent(match ? match[2] : '')
+            result = decode(match ? match[2] : '')
             return result
         },
-        composeUrl: function (obj) {
+        composeUrl: function(obj) {
             /// <summary>组装键值对数组到url参数</summary>
             /// <param name="obj" type="Object">键值对数组</param>
+
             var key, item, result = []
             for (key in obj) {
                 if (obj.hasOwnProperty(key)) {
@@ -31,19 +44,18 @@
             }
             return result.join('&')
         },
-        back2from: function (query, name) {
+        back2from: function(query, name) {
             name = name || 'from'
             var from = this.getQuery(name)
             if (from) {
                 from = this.replaceQuery(from, query)
-                location.href = decodeURIComponent(from)
+                location.href = decode(from)
             } else {
                 history.back()
             }
         },
-        replaceQuery: function (url, obj) {
+        replaceQuery: function(url, obj) {
             /// <summary>替换参数</summary>
-            url = url || location.href
 
             var temp = url.split('?'),
                 url = temp[0],
@@ -51,21 +63,25 @@
                 obj = obj || {}
 
             if (search) {
-                search.split('&').forEach(function (item) {
+                search.split('&').forEach(function(item) {
                     var arr = item.split('='),
                         key = arr[0],
                         value = arr[1]
 
                     if (!obj[key]) {
-                        obj[key] = encodeURIComponent(value)
+                        try {
+                            obj[key] = decode(value)
+                        } catch (e) {
+                            obj[key] = value
+                        }
                     }
                 })
             }
             return url + '?' + this.composeUrl(obj)
         },
-        getBaseUrl: function () {
+        getBaseUrl: function() {
             /// <summary>获取项目的根目录</summary>
-            
+
             var baseUrl = localStorage.baseUrl
             if (!baseUrl) {
                 var scripts = document.getElementsByTagName('script'),
@@ -90,5 +106,5 @@
         }
     }
 
-    return url
+    return urlUtil
 }))

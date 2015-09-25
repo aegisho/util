@@ -7,7 +7,7 @@
 }(function () {
     'use strict'
 
-    var date = {
+    var dateUtil = {
         parse: function (date) {
             if (typeof date === 'string') {
                 //JSON日期格式
@@ -105,5 +105,5 @@
         },
     }
 
-    return date
+    return dateUtil
 }))
