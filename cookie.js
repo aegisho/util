@@ -1,10 +1,10 @@
 ﻿(function (factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['core'], factory)
+        define(factory)
     } else {
         factory()
     }
-}(function () {
+} (function () {
     'use strict'
 
     var cookie = {
@@ -34,7 +34,7 @@
 
             if (maxAge) {
                 date = new Date()
-                date.setTime(date.getTime() + maxAge)                
+                date.setTime(date.getTime() + maxAge)
                 cookie += ';expires=' + date.toGMTString()
             }
 

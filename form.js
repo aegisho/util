@@ -1,11 +1,11 @@
 ﻿//表单处理
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['core'], factory)
+        define(['jquery', 'core'], factory)
     } else {
         factory($, core)
     }
-}(function ($, core) {
+} (function ($, core) {
     'use strict'
 
     var form = {
@@ -14,18 +14,13 @@
             /// <param name="data" type="Object">实体对象</param>
             /// <param name="contain" type="El">容器</param>      
 
-            var key,
-                item,
-                bindType = 'input,select,textarea' + (otherType ? ',' + otherType : '')
+            var bindType = 'input,select,textarea' + (otherType ? ',' + otherType : ''),
                 inputs = (contain || document).querySelectorAll(bindType)
 
             inputs.forEach(function (input) {
                 var name = input.name || input.id,
                     type = input.type,
-                    value,
-                    i,
-                    len,
-                    option
+                    value
 
                 if (!name || !core.hasKey(data, name)) {
                     return true
@@ -35,9 +30,9 @@
 
                 switch (type) {
                     case 'select-multiple':
-                        input.options.forEach(function(option){
+                        input.options.forEach(function (option) {
                             option.selected = value.split(',').indexOf(option.value) > -1
-                        })                        
+                        })
                         break
                     case 'checkbox':
                     case 'radio':
@@ -68,22 +63,22 @@
                     value
 
                 if (!name || input.getAttribute('noserialize') != null) {
-                    continue
+                    return
                 }
-                
-                if('value' in input){
-                    value = input.value 
+
+                if ('value' in input) {
+                    value = input.value
                 }
 
                 if (encode) {
                     value = encodeURIComponent(value || '')
                 }
 
-                switch (input.type) {
+                switch (type) {
                     case 'select-multiple':
-                        value = input.options.map(function(option){
+                        value = input.options.map(function (option) {
                             return option.selected ? option.value : ''
-                        }).join(',')                      
+                        }).join(',')
                     case 'checkbox':
                     case 'radio':
                         if (!input.checked) {

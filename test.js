@@ -1,10 +1,10 @@
-(function(factory) {
+(function (factory) {
     if (typeof define === 'function' && define.amd) {
         define(['core'], factory)
     } else {
         factory()
     }
-}(function() {
+} (function () {
     'use strict'
 
     function similarEqual(obj1, obj2) {
@@ -68,7 +68,7 @@
     }
 
     var test = {
-        describe: function(descript, func) {
+        describe: function (descript, func) {
             console.log(descript)
             try {
                 func()
@@ -76,10 +76,10 @@
                 console.error(descript + ' fail,error:' + e.message)
             }
         },
-        assert: function(expression, message) {
-            console.assert.apply(console, arguments)
+        assert: function (expression, message) {
+            console.assert(expression, message)
         },
-        isEqual: function(obj1, obj2) {
+        isEqual: function (obj1, obj2) {
             var equal = obj1 === obj2
 
             //判断NaN
@@ -92,16 +92,16 @@
 
             return equal
         },
-        assertEqual: function(obj1, obj2) {
+        assertEqual: function (obj1, obj2) {
             var equal = this.isEqual(obj1, obj2)
 
             this.assert(equal, obj1 + ' 不等于 ' + obj2)
         },
-        assertNotEqual: function(obj1, obj2) {
+        assertNotEqual: function (obj1, obj2) {
             var equal = !this.isEqual(obj1, obj2)
             this.assert(equal, obj1 + ' 等于 ' + obj2)
         },
-        assertSimilarEqual: function(obj1, obj2) {
+        assertSimilarEqual: function (obj1, obj2) {
             /// <summary>判断两个对象是否相似</summary>
             //如[1,2,3] 与[1,2,3]相似
 
@@ -109,7 +109,7 @@
 
             this.assert(equal, obj1 + ' 不等于 ' + obj2)
         },
-        getTime: function(times, func, args, thisArgs) {
+        getTime: function (times, func, args, thisArgs) {
             times = times || 1
             if (!(args instanceof Array)) {
                 args = [args]

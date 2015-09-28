@@ -2,12 +2,12 @@ require.config({
     baseUrl: '../'
 })
 
-require(['test'], function(test) {
+require(['test'], function (test) {
 
-    require(['core'], function(core) {
+    require(['core'], function (core) {
         console.log('core.js test begin')
 
-        test.describe('core.namespace', function() {
+        test.describe('core.namespace', function () {
             var book = {}
             core.namespace('anthor', book)
             test.assert('anthor' in book)
@@ -25,7 +25,7 @@ require(['test'], function(test) {
             test.assert('sex' in book.anthor)
         })
 
-        test.describe('core.mixin', function() {
+        test.describe('core.mixin', function () {
             var book = {}
             var src = {
                 anthor: {
@@ -39,7 +39,7 @@ require(['test'], function(test) {
             test.assertNotEqual(book.anthor, src.anthor)
         })
 
-        test.describe('core.hasKey', function() {
+        test.describe('core.hasKey', function () {
             var book = {
                 anthor: {
                     name: 'jone',
@@ -52,7 +52,7 @@ require(['test'], function(test) {
             test.assert(!core.hasKey(book, 'title'))
         })
 
-        test.describe('core.findValue', function() {
+        test.describe('core.findValue', function () {
             var book = {
                 title: 'my book',
                 anthor: {
@@ -66,7 +66,7 @@ require(['test'], function(test) {
             test.assertEqual(core.findValue(book, 'anthor.phone'), null)
         })
 
-        test.describe('core.setValue', function() {
+        test.describe('core.setValue', function () {
             var book = {
                 title: 'my book'
             }
@@ -81,12 +81,12 @@ require(['test'], function(test) {
             test.assertEqual(book.anthor.phone, newPhone)
         })
 
-        test.describe('core.callFunc', function() {
+        test.describe('core.callFunc', function () {
             var book = {
                 title: 'my book',
                 anthor: {
                     name: 'jone',
-                    getAnthorInfo: function(str) {
+                    getAnthorInfo: function (str) {
                         return this.name + (str || '')
                     }
                 }
@@ -97,7 +97,7 @@ require(['test'], function(test) {
             test.assertEqual(reuslt, 'jone is anthor')
         })
 
-        test.describe('core.isEmpty', function() {
+        test.describe('core.isEmpty', function () {
             var obj = {
                 name: ''
             }
@@ -115,7 +115,7 @@ require(['test'], function(test) {
             test.assert(core.isEmpty(emptyArr))
         })
 
-        test.describe('core.invert', function() {
+        test.describe('core.invert', function () {
             var obj = {
                 name: 'jone'
             }
@@ -127,11 +127,11 @@ require(['test'], function(test) {
             })
         })
 
-        test.describe('core.toKeyValue', function() {
+        test.describe('core.toKeyValue', function () {
             var arr = ['One', 'Two', 'Three']
 
             var result = core.toKeyValue(arr, {
-                map: function(value) {
+                map: function (value) {
                     return value === 6 ? 0 : (value + 1)
                 }
             })
@@ -140,12 +140,12 @@ require(['test'], function(test) {
                 Key: 'One',
                 Value: 1
             }, {
-                Key: 'Two',
-                Value: 2
-            }, {
-                Key: 'Three',
-                Value: 3
-            }])
+                    Key: 'Two',
+                    Value: 2
+                }, {
+                    Key: 'Three',
+                    Value: 3
+                }])
         })
 
         console.log('core.js test end')

@@ -5,7 +5,7 @@
     } else {
         factory()
     }
-}(function (core, $) {
+} (function (core, $) {
     'use strict'
 
     //模拟数据预加载
@@ -148,7 +148,7 @@
             if (this.preload) {
                 if (!(this.preload instanceof PreLoad)) {
                     this.preload = new PreLoad(this.preload, options.data)
-                }               
+                }
                 this.preload.load(options.success)
             }
 
@@ -159,7 +159,7 @@
                     return options.success.apply(null, data)
                 }
             }
-            
+
             return $.ajax(options)
         }
     }

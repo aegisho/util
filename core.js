@@ -1,15 +1,15 @@
 ﻿//核心函数库
-(function(factory) {
+(function (factory) {
     if (typeof define === 'function' && define.amd) {
         define(factory)
     } else {
         factory()
     }
-}(function() {
+} (function () {
     'use strict'
 
     var core = {
-        namespace: function(path, context) {
+        namespace: function (path, context) {
             /// <summary>创建命名空间</summary>
             /// <param name="path" type="String">路径</param>
             /// <param name="context" type="Object">上下文对象</param>
@@ -17,13 +17,13 @@
             var keys = path.split('.'),
                 item = context
 
-            keys.forEach(function(name) {
+            keys.forEach(function (name) {
                 item = (name in item && typeof item[name] === 'object') ? item[name] : (item[name] = {})
             })
 
             return item
         },
-        mixin: function(obj, src) {
+        mixin: function (obj, src) {
             /// <summary>掺入属性</summary>
             /// <param name="obj" type="Object">目标对象</param>
             /// <param name="src" type="Object">掺入对象</param>
@@ -32,7 +32,7 @@
             }
 
             if (src instanceof Array) {
-                src.forEach(function(item) {
+                src.forEach(function (item) {
                     this.mixin(obj, item)
                 }, this)
             }
@@ -53,7 +53,7 @@
             }
             return obj
         },
-        hasKey: function(data, key) {
+        hasKey: function (data, key) {
             /// <summary>判断对象是否存在键值</summary>
             /// <param name="key" type="String">键值,可以包含"."</param>
             if (data == null || typeof data !== 'object' || !key || typeof key !== 'string') {
@@ -64,7 +64,7 @@
                 item = data,
                 result = true
 
-            keys.forEach(function(k) {
+            keys.forEach(function (k) {
                 if (item != null && typeof item === 'object' && k in item) {
                     item = item[k]
                 } else {
@@ -74,7 +74,7 @@
 
             return result
         },
-        findValue: function(data, key) {
+        findValue: function (data, key) {
             /// <summary>获取对象指定键的值</summary>
             /// <summary>判断对象是否存在键值</summary>
             /// <param name="key" type="String">键值,可以包含"."</param>
@@ -85,7 +85,7 @@
             var keys = key.split('.'),
                 item = data
 
-            keys.forEach(function(k) {
+            keys.forEach(function (k) {
                 if (item != null && typeof item === 'object' && k in item) {
                     item = item[k]
                 } else {
@@ -96,7 +96,7 @@
 
             return item
         },
-        setValue: function(data, key, value) {
+        setValue: function (data, key, value) {
             /// <summary>设置对象的属性</summary>
             /// <param name="key" type="String">属性名称，a.b.c.d</param>
             if (data == null || typeof data !== 'object' || !key || typeof key !== 'string') {
@@ -104,10 +104,11 @@
             }
 
             var keys = key.split('.'),
-                item = data,
-                key = keys.pop()
+                item = data
 
-            keys.forEach(function(name) {
+            key = keys.pop()
+
+            keys.forEach(function (name) {
                 item = (name in item && typeof item[name] === 'object') ? item[name] : (item[name] = {})
             })
 
@@ -115,7 +116,7 @@
 
             return data
         },
-        callFunc: function(funcName, context) {
+        callFunc: function (funcName, context) {
             /// <summary>调用对象的方法</summary>      
             /// <param name="funcName" type="string">方法名称</param>
             /// <param name="context" type="Object"></param>
@@ -137,15 +138,15 @@
             if (funcName.indexOf())
 
                 if (typeof func === 'function') {
-                var args = [].slice.call(arguments, 2)
-                try {
-                    return func.apply(context, args) //todo func this 指向还是存在问题
-                } catch (e) {
-                    console.error(e)
+                    var args = [].slice.call(arguments, 2)
+                    try {
+                        return func.apply(context, args) //todo func this 指向还是存在问题
+                    } catch (e) {
+                        console.error(e)
+                    }
                 }
-            }
         },
-        isEmpty: function(obj) {
+        isEmpty: function (obj) {
             /// <summary>判断对象是否为空</summary>
             if (obj == null) {
                 return true
@@ -162,7 +163,7 @@
             }
             return true
         },
-        invert: function(obj) {
+        invert: function (obj) {
             /// <summary>对换键（keys）和值（values）</summary>
             if (obj == null || typeof obj !== 'object') {
                 return
@@ -178,13 +179,13 @@
             }
             return data
         },
-        toKeyValue: function(obj, options) {
+        toKeyValue: function (obj, options) {
             /// <summary>将数组或者对象转换为指定的key-value数组</summary>
             /// <param name="options" type="Objecy">配置参数</param>
             var config = {
                 keyName: 'Key',
                 valueName: 'Value',
-                map: function(value) {
+                map: function (value) {
                     return value
                 }
             }
@@ -192,7 +193,7 @@
             this.mixin(config, options)
 
             if (obj instanceof Array) {
-                return obj.map(function(text, index) {
+                return obj.map(function (text, index) {
                     var data = {}
                     data[config.keyName] = text
                     data[config.valueName] = config.map(index)
@@ -213,7 +214,7 @@
             }
             return arr
         },
-        processBigArray: function(items, process) {
+        processBigArray: function (items, process) {
             /// <summary>批量处理大数组</summary>
             /// <param name="items" type="Array"></param>
             /// <param name="process" type="Function"></param>
@@ -221,7 +222,7 @@
                 return
             }
             var todo = items.concat()
-                (function() {
+                (function () {
                     var start = new Date()
                     do {
                         process(todo.shift())
@@ -230,18 +231,17 @@
                     if (todo.length) {
                         setTimeout(arguments.callee, 25)
                     }
-                }())
+                } ())
         },
-        throttle: function(func, delay, maxDelay) {
+        throttle: function (func, delay, maxDelay) {
             /// <summary>函数节流</summary>
             var timer = null,
                 start
 
             delay = delay || 200
 
-            return function() {
+            return function () {
                 var context = this,
-                    args = arguments,
                     current = +new Date()
 
                 if (!start) {
@@ -254,7 +254,7 @@
                     start = current
                     func.apply(context, arguments)
                 } else {
-                    timer = setTimeout(function() {
+                    timer = setTimeout(function () {
                         start = current
                         func.apply(context, arguments)
                     }, delay)
